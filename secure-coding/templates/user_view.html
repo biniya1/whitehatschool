@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ target.username }}{% endblock %}
+{% block content %}
+<h2>{{ target.username }}</h2>
+<p>{{ target.bio or '소개글이 없습니다.' }}</p>
+
+<div class="chat-row">
+  {% if target.id != user.id %}
+    <a href="{{ url_for('chat.dm_thread', peer_id=target.id) }}">1:1 채팅</a>
+    <a href="{{ url_for('reports.report', target_type='user', target_id=target.id) }}">신고하기</a>
+  {% endif %}
+</div>
+
+<h3>등록된 상품</h3>
+<ul>
+  {% for product in products %}
+    <li>
+      <a href="{{ url_for('products.view_product', product_id=product.id) }}">{{ product.title }}</a>
+      {% if product.is_sold %}<span class="tag suspended">판매완료</span>{% endif %}
+    </li>
+  {% else %}
+    <li class="muted">등록된 상품이 없습니다.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% from "_macros.html" import render_field %}
+{% block title %}신고하기{% endblock %}
+{% block content %}
+<h2>신고하기</h2>
+<form method="post" novalidate>
+  {{ form.hidden_tag() }}
+  {{ render_field(form.target_type) }}
+  {{ render_field(form.target_id) }}
+  <p class="muted">상품/사용자 상세 페이지의 "신고하기" 링크를 이용하면 자동으로 입력됩니다.</p>
+  {{ render_field(form.reason, rows=4) }}
+  <button type="submit">신고 접수</button>
+</form>
+{% endblock %}

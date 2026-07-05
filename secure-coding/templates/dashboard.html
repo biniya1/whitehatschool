@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}대시보드{% endblock %}
+{% block content %}
+<h2>대시보드</h2>
+<p class="muted">{{ user.username }}님, 환영합니다. (잔액: {{ user.balance }}원)</p>
+
+<h3>등록된 상품</h3>
+<ul>
+  {% for product in products %}
+    <li>
+      <a href="{{ url_for('products.view_product', product_id=product.id) }}">{{ product.title }}</a>
+      {% if product.is_sold %}<span class="tag suspended">판매완료</span>{% endif %}
+    </li>
+  {% else %}
+    <li class="muted">등록된 상품이 없습니다.</li>
+  {% endfor %}
+</ul>
+<p><a href="{{ url_for('products.new_product') }}">새 상품 등록</a></p>
+
+<h3>실시간 채팅</h3>
+<div id="chat">
+  <ul id="messages"></ul>
+  <div class="chat-row">
+    <input id="chat_input" type="text" placeholder="메시지를 입력하세요" maxlength="500">
+    <button id="chat_send" type="button">전송</button>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% from "_macros.html" import render_field %}
+{% block title %}프로필{% endblock %}
+{% block content %}
+<h2>마이페이지</h2>
+<p>사용자명: {{ user.username }}</p>
+<p>잔액: {{ user.balance }}원</p>
+
+<form method="post" novalidate>
+  {{ form.hidden_tag() }}
+  {{ render_field(form.bio, rows=4) }}
+
+  <h3>비밀번호 변경</h3>
+  <p class="muted">비밀번호를 변경하려면 현재 비밀번호와 새 비밀번호를 모두 입력하세요.</p>
+  {{ render_field(form.current_password) }}
+  {{ render_field(form.new_password) }}
+  {{ render_field(form.confirm_new_password) }}
+
+  <button type="submit">프로필 업데이트</button>
+</form>
+{% endblock %}

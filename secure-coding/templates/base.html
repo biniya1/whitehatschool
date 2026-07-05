@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}My Market{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <nav>
+    {% if current_user %}
+      <a href="{{ url_for('main.dashboard') }}">대시보드</a>
+      <form method="get" action="{{ url_for('main.search') }}">
+        <input type="text" name="q" placeholder="상품 검색" maxlength="100">
+      </form>
+      <a href="{{ url_for('chat.inbox') }}">메시지함</a>
+      <a href="{{ url_for('trade.transfer') }}">송금</a>
+      <a href="{{ url_for('main.profile') }}">프로필 ({{ current_user.balance }}원)</a>
+      <a href="{{ url_for('reports.report') }}">신고하기</a>
+      {% if current_user.is_admin %}
+        <a href="{{ url_for('admin.dashboard') }}">관리자</a>
+      {% endif %}
+      <span class="spacer"></span>
+      <a href="{{ url_for('auth.logout') }}">로그아웃</a>
+    {% else %}
+      <a href="{{ url_for('auth.login') }}">로그인</a>
+      <a href="{{ url_for('auth.register') }}">회원가입</a>
+    {% endif %}
+  </nav>
+  <div class="container">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li class="flash">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </div>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}로그인{% endblock %}
+{% block content %}
+<h2>로그인</h2>
+<form method="post" novalidate>
+  {{ form.hidden_tag() }}
+  {{ form.username.label }}<br>
+  {{ form.username(autofocus=true) }}
+  {% for e in form.username.errors %}<div class="error">{{ e }}</div>{% endfor %}
+  {{ form.password.label }}<br>
+  {{ form.password() }}
+  {% for e in form.password.errors %}<div class="error">{{ e }}</div>{% endfor %}
+  <button type="submit">로그인</button>
+</form>
+{% endblock %}
